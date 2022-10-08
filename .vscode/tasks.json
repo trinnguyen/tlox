@@ -1,0 +1,38 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "swift",
+			"args": [
+				"build",
+				"--build-tests"
+			],
+			"cwd": "/Users/tnn/work/tnn/tlox",
+			"problemMatcher": [
+				"$swiftc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"label": "swift: Build All",
+			"detail": "swift build --build-tests"
+		},
+		{
+			"type": "swift",
+			"args": [
+				"test"
+			],
+			"cwd": "/Users/tnn/work/tnn/tlox",
+			"problemMatcher": [
+				"$swiftc"
+			],
+			"group": {
+				"kind": "test",
+				"isDefault": true
+			},
+			"label": "swift: Test",
+			"detail": "swift test"
+		}
+	]
+}

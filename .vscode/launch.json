@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug Tlox",
+            "program": "${workspaceFolder:tlox}/.build/debug/Tlox",
+            "args": [],
+            "cwd": "${workspaceFolder:tlox}",
+            "preLaunchTask": "swift: Build Debug Tlox"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Release Tlox",
+            "program": "${workspaceFolder:tlox}/.build/release/Tlox",
+            "args": [],
+            "cwd": "${workspaceFolder:tlox}",
+            "preLaunchTask": "swift: Build Release Tlox"
+        }
+    ]
+}
