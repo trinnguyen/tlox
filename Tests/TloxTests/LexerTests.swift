@@ -15,11 +15,11 @@ final class LexerTests: XCTestCase {
     }
     
     func testId() {
-        XCTAssertEqual([Token(.id("print"), .init(1, 1))], Lexer("print").scan().dropLast())
+        XCTAssertEqual([Token(.id("_ab78"), .init(1, 1))], Lexer("_ab78").scan().dropLast())
     }
     
     func testStr() {
-        XCTAssertEqual([Token(.str("print"), .init(1, 1))], Lexer("\"print\"").scan().dropLast())
+        XCTAssertEqual([Token(.str("thi* this a very) long @¶˙˙"), .init(1, 1))], Lexer("\"thi* this a very) long @¶˙˙\"").scan().dropLast())
     }
     
     func testNum() {
@@ -68,7 +68,7 @@ final class LexerTests: XCTestCase {
         print a
         """
         XCTAssertEqual([
-            TokenType.id("print"),
+            TokenType.kwPrint,
             TokenType.str("Hello world!"),
             TokenType.id("_bb1"),
             TokenType.assign,
@@ -84,7 +84,7 @@ final class LexerTests: XCTestCase {
             TokenType.num(5.67),
             TokenType.mul,
             TokenType.id("_bb1"),
-            TokenType.id("print"),
+            TokenType.kwPrint,
             TokenType.id("a"),
             TokenType.eof,
         ], Lexer(src).scan().map { $0.type })
@@ -114,6 +114,29 @@ final class LexerTests: XCTestCase {
             TokenType.mul,
             TokenType.minus,
             TokenType.plus,
+            TokenType.eof
+        ], Lexer(src).scan().map { $0.type })
+    }
+
+    func testKeywords() {
+        let src = """
+        class fun var for if else print return while super true false nil this
+        """
+        XCTAssertEqual([
+            TokenType.kwClass,
+            TokenType.kwFun,
+            TokenType.kwVar,
+            TokenType.kwFor,
+            TokenType.kwIf,
+            TokenType.kwElse,
+            TokenType.kwPrint,
+            TokenType.kwReturn,
+            TokenType.kwWhile,
+            TokenType.kwSuper,
+            TokenType.kwTrue,
+            TokenType.kwFalse,
+            TokenType.kwNil,
+            TokenType.kwThis,
             TokenType.eof
         ], Lexer(src).scan().map { $0.type })
     }

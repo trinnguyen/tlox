@@ -49,14 +49,46 @@ class Lexer {
             _ = advance()
             return .str(str)
             
-        // scan id
+        // scan id or keyword
         case let c where c.isAlpha:
             var scalars: String.UnicodeScalarView = .init()
             scalars.append(cur)
             while let tmp = advance(), tmp.isAlpha || tmp.isDigit {
                 scalars.append(tmp)
             }
-            return .id(String(scalars))
+            let rawId =  String(scalars)
+            switch rawId  {
+                case "class":
+                return .kwClass
+                case "fun":
+                return .kwFun
+                case "var":
+                return .kwVar
+                case "for":
+                return .kwFor
+                case "if":
+                return .kwIf
+                case "else":
+                return .kwElse
+                case "print":
+                return .kwPrint
+                case "return":
+                return .kwReturn
+                case "while":
+                return .kwWhile
+                case "super":
+                return .kwSuper
+                case "true":
+                return .kwTrue
+                case "false":
+                return .kwFalse
+                case "nil":
+                return .kwNil
+                case "this":
+                return .kwThis
+                default:
+                return .id(rawId)
+            }
             
         // scan number
         case let c where c.isDigit:
