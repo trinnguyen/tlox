@@ -1,4 +1,3 @@
-
 typealias Id = String
 
 struct Ast {
