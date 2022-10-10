@@ -22,7 +22,7 @@ struct Location: Equatable, CustomDebugStringConvertible {
     }
 }
 
-enum TokenType: Equatable {
+enum TokenType: Equatable, Hashable {
     case num(Float)
     case str(String)
     case id(String)
@@ -37,6 +37,8 @@ enum TokenType: Equatable {
     case kwPrint
     case kwReturn
     case kwWhile
+    case kwOr
+    case kwAnd
     case kwSuper
     case kwTrue
     case kwFalse
@@ -44,8 +46,8 @@ enum TokenType: Equatable {
     case kwThis
     
     // symbol
-    case plus
-    case minus
+    case add
+    case sub
     case mul
     case div
     case assign

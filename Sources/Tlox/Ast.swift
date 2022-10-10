@@ -4,20 +4,26 @@ struct Ast {
     let decls: [Decl]
 }
 
-enum Decl {
-    case `class`(id: Id, superId: Id?, functions: [Function])
-    case `func`(function: Function)
-    case `var`(VarDecl)
-    case stmt(stmt: Stmt)
+protocol Decl {
 }
 
-struct VarDecl {
+struct ClassDecl: Decl {
+    let id: Id
+    let superId: Id?
+    let functions: [Function]
+}
+
+struct FunDecl: Decl {
+    let function: Function
+}
+
+struct VarDecl: Decl {
     let id: Id
     let expr: Expr?
 }
 
 // Stmt
-protocol Stmt {
+protocol Stmt: Decl {
 }
 
 struct ExprStmt: Stmt {
@@ -56,69 +62,69 @@ struct WhileStmt: Stmt {
     let bodyStmt: Stmt
 }
 
-struct BlockStmt: Stmt {
+struct Block: Stmt {
     let decls: [Decl]
 }
 
 // Expr
 protocol Expr {}
 
-struct AssignExpr: Expr {
-    let call: Call?
-    let id: Id
-    let assignment: Expr
-}
+struct BinaryExpr: Expr {
 
-struct BinaryExpr {
-
-    enum Op: String {
+    enum Op: String, Equatable {
         case or
         case and
         case neq = "!="
         case eq = "=="
         case gt = ">"
-        case gte = ">="
+        case ge = ">="
         case lt = "<"
-        case lte = "<="
+        case le = "<="
         case sub = "-"
         case add = "+"
         case div = "/"
         case mul = "*"
     }
 
-    let lhsExpr: Expr
-    let rhsExpr: Expr
+    let lhs: Expr
     let op: Op
+    let rhs: Expr
 }
 
-struct UnaryExpr {
+struct UnaryExpr: Expr {
     enum Op: String {
         case neg = "!"
-        case min = "-"
+        case sub = "-"
     }
+    let op: Op
     let expr: Expr
 }
 
-struct Call: Expr {
-    let primary: Primary
-    let arguments: [Id]?
-    let dotId: [Id]?
+enum Call: Expr {
+    case fun(expr: Expr, args: [Expr])
+    case prop(expr: Expr, id: Id)
 }
 
-enum Primary: Expr {
+struct AssignmentExpr: Expr {
+    let id: Id
+    let expr: Expr
+
+    // TODO: call?
+}
+
+enum Primary: Expr, Equatable {
     case `true`
     case `false`
     case `nil`
     case this
-    case num(num: Int)
-    case str(str: String)
-    case id(id: Id)
-    case expr(expr: Expr)
-    case superId(id: Id)
+    case num(Float)
+    case str(String)
+    case id(Id)
+    case superId(Id)
 }
 
 struct Function {
     let id: Id
     let parameters: [Id]
-    let block: BlockStmt
+    let block: Block
 }

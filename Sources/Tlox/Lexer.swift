@@ -76,6 +76,10 @@ class Lexer {
                 return .kwReturn
                 case "while":
                 return .kwWhile
+                case "or":
+                return .kwOr
+                case "and":
+                return .kwAnd
                 case "super":
                 return .kwSuper
                 case "true":
@@ -105,11 +109,11 @@ class Lexer {
             
         case "+":
             _ = advance()
-            return .plus
+            return .add
             
         case "-":
             _ = advance()
-            return .minus
+            return .sub
             
         case "*":
             _ = advance()
